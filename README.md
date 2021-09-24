@@ -1,4 +1,4 @@
-<h1>💰 Financial App 🤑</h1>
+<h1 style="text-align:center">💰 - Financial App</h1>
 
 [![Technology][react-image]][react-url]
 [![Technology][typescript-image]][typescript-url] 
