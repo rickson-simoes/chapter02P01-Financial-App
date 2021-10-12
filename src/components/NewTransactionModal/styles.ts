@@ -65,6 +65,10 @@ export const TransactionTypeContainer = styled.div`
     align-items: center;
     justify-content: center;
 
+    &:hover{
+      border-color: #aaa;
+    }
+
     img {
       width: 20px;
       height: 20px;
