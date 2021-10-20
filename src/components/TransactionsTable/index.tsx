@@ -48,14 +48,19 @@ export function TransactionsTable(){
               <td>{transaction.title}</td>
 
               <td className={transaction.type}> 
-                R$ {transaction.type === 'withdraw' 
-                ? `- ${transaction.value}`
-                : transaction.value}
+                {new Intl.NumberFormat('pt-BR', {
+                  style: "currency",
+                  currency: 'BRL'
+                }).format(transaction.value)}
               </td>
 
               <td>{transaction.category}</td>
 
-              <td>{transaction.createdAt.substring(0,10).split('-').reverse().join('/')}</td>
+              <td>
+              {new Intl.DateTimeFormat('pt-BR').format(
+                new Date(transaction.createdAt))                
+              }
+              </td>
             </tr>
           ))}
         </tbody>
