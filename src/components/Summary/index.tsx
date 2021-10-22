@@ -18,7 +18,7 @@ import { Container } from "./styles";
 // }
 
 export function Summary() { 
-  const transactions = useContext(TransactionsContext);
+  const { transactions } = useContext(TransactionsContext);
 
   const income = transactions.filter(transactions => transactions.type === "deposit").reduce((acc , transaction) => {
     return acc + transaction.value 
