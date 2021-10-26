@@ -17,18 +17,35 @@ import { Container } from "./styles";
 //   )
 // }
 
+interface ISummaryTypes {
+  income: number;
+  outcome: number;
+  readonly total: number;
+}
+
 export function Summary() { 
   const { transactions } = useContext(TransactionsContext);
 
-  const income = transactions.filter(transactions => transactions.type === "deposit").reduce((acc , transaction) => {
-    return acc + transaction.value 
-  }, 0);
+  const summary: ISummaryTypes = transactions.reduce((acc, transaction) => {
+    switch (transaction.type) {
+      case "deposit": {        
+        acc.income += transaction.value
+      break;
+      }        
+      case "withdraw": {
+        acc.outcome += transaction.value
+      break;
+      }
+    }
 
-  const outcome = transactions.filter(transactions => transactions.type === "withdraw").reduce((acc , transaction) => {
-    return acc + transaction.value 
-  }, 0);
-
-  const total = income - outcome;
+    return acc;
+  }, {
+    income: 0,
+    outcome: 0,
+    get total(){
+      return this.income - this.outcome
+    }
+  });
 
   function repairValue(val: number){
     return Intl.NumberFormat('pt-BR', {currency: 'BRL', style: "currency"}).format(val);
@@ -42,7 +59,7 @@ export function Summary() {
           <img src={incomeImg} alt="Entradas" />
         </header>
 
-        <strong>{repairValue(income)}</strong>
+        <strong>{repairValue(summary.income)}</strong>
       </div>
 
       <div>
@@ -51,7 +68,7 @@ export function Summary() {
           <img src={outcomeImg} alt="Saídas" />
         </header>
 
-        <strong>{repairValue(outcome)}</strong>
+        <strong>- {repairValue(summary.outcome)}</strong>
       </div>
 
       <div className="highlight-background">
@@ -60,7 +77,7 @@ export function Summary() {
           <img src={totalImg} alt="Total" />
         </header>
 
-        <strong>{repairValue(total)}</strong>
+        <strong>{repairValue(summary.total)}</strong>
       </div>
     </Container>
   )
