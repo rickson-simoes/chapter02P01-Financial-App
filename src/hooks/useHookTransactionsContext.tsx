@@ -1,5 +1,5 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { api } from "./services/api";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { api } from "../services/api";
 
 interface ITransactions {
   id: number;
@@ -27,7 +27,7 @@ interface ITransactionsContextData {
 
 // type ITransactionInput = Pick<ITransactions, 'title' | 'type' | 'value' | 'category'>;
 
-export const TransactionsContext = createContext<ITransactionsContextData>(
+const TransactionsContext = createContext<ITransactionsContextData>(
   {} as ITransactionsContextData
 );
 
@@ -67,4 +67,10 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
       {children}
     </TransactionsContext.Provider>
   );
+}
+
+export function useHookTransactionsContext() {
+  const context = useContext(TransactionsContext);
+
+  return context;
 }
